@@ -3,8 +3,22 @@
 > Work in progress
 
 ## Architecture overview
-> [!IMPORTANT]  
-> Work in progress
+```mermaid
+architecture-beta
+  group minkoo[Minkoo]
+
+  service user(internet)[User] in minkoo
+
+  group aws(cloud)[AWS] in minkoo
+
+  service front(server)[Nuxt Frontend] in aws
+  service back(server)[NestJS Backend] in aws
+  service db(database)[PostgreSQL DB] in aws
+
+  front:L -- R:user
+  back:L -- R:front
+  db:L -- R:back
+```
 
 ## Related repositories
 - [digivoro/minkoo-front](https://github.com/digivoro/minkoo-front) - Nuxt frontend
