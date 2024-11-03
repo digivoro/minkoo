@@ -1,6 +1,5 @@
 # Minkoo
-> [!IMPORTANT]  
-> Work in progress
+Minkoo is a community-first application where you can connect with others to make things happen! It is inspired by the tradition of the [minka](https://en.wikipedia.org/wiki/Minka), where people in a community get together to help each other out through voluntary, collective labor.
 
 ## Architecture overview
 ```mermaid
@@ -10,10 +9,13 @@ architecture-beta
   service user(internet)[User] in minkoo
 
   group aws(cloud)[AWS] in minkoo
+  group docker_1(cloud)[Docker container] in aws
+  group docker_2(cloud)[Docker container] in aws
+  group docker_3(cloud)[Docker container] in aws
 
-  service front(server)[Nuxt Frontend] in aws
-  service back(server)[NestJS Backend] in aws
-  service db(database)[PostgreSQL DB] in aws
+  service front(server)[Nuxt Frontend] in docker_1
+  service back(server)[NestJS Backend] in docker_2
+  service db(database)[PostgreSQL DB] in docker_3
 
   front:L -- R:user
   back:L -- R:front
@@ -42,3 +44,6 @@ architecture-beta
 ## Features
 > [!IMPORTANT]  
 > Work in progress
+
+## Roadmap
+- Markets and Listings to be added as features
