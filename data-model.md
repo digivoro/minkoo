@@ -5,14 +5,11 @@
 title: "Logical ER Diagram"
 ---
 erDiagram
-  COMMUNITIES }|--o{ USERS : "belong to"
   COMMUNITIES ||--o{ PROJECTS : "develop"
-  COMMUNITIES |o--o{ MARKETS : "host"
-  COMMUNITIES }o--o{ ADS : "display"
+  COMMUNITIES }|--o{ USERS : "belong to"
   USERS }|--o{ PROJECTS : "participate in"
-  USERS }|--o{ MARKETS : "participate in"
-  USERS ||--o{ ADS : "post"
-  MARKETS }o--o{ ADS : "display"
+  COMMUNITIES ||--o{ BILLBOARD_POSTS : "display"
+  USERS ||--o{ BILLBOARD_POSTS : "post"
 ```
 
 ```mermaid
@@ -20,28 +17,76 @@ erDiagram
 title: "Physical ER Diagram"
 ---
 erDiagram
-  communities ||--o{ users_communities : ""
-  users ||--o{ users_communities : ""
-
+  communities ||--|| locations : ""
+  communities ||--o{ community_members : "group"
+  users ||--o{ community_members : "belong to"
+  users ||--o{ billboard_posts : "post"
+  projects ||--o{ project_collaborators : ""
+  projects ||--|| users : "owner"
+  locations ||--|| countries : ""
+  communities ||--o{ community_billboards : "display"
+  billboard_posts ||--o{ community_billboards : "are posted to"
+  users ||--o{ project_collaborators : ""
 
   communities {
-    int id
-    string name
-    string description
-    timestamp created_at
-    timestamp updated_at
+    int id PK
+    varchar name
+    varchar description
+    int location_id FK
+    timestamptz created_at
+    timestamptz updated_at
   }
   users {
-    int id
-    string name
-    string email
+    int id PK
+    varchar name
+    varchar email
     date dob
-    string pseudonym
-    timestamp created_at
-    timestamp updated_at
+    varchar pseudonym
+    timestamptz created_at
+    timestamptz updated_at
   }
-  users_communities {
+  billboard_posts {
+    int id PK
+    int user_id FK
+    varchar title
+  }
+  projects {
+    int id PK
+    string name
+    string description
+    timestamptz starts_at
+    timestamptz ends_at
+    int owner_id FK
+    int project_collaborators FK
+  }
+
+  %% Junction tables
+  community_members {
     int community_id FK
     int user_id FK
+    timestamptz joined_at
+  }
+  community_billboards {
+    int community_id FK
+    int billboard_post_id FK
+    timestamptz created_at
+  }
+  project_collaborators {
+    int project_id FK
+    int user_id FK
+    timestamptz joined_at
+  }
+
+  %% Aux
+  locations {
+    int id PK
+    int country_id FK
+    varchar city
+    varchar state
+    varchar address
+  }
+  countries {
+    int id PK
+    varchar name
   }
 ```
