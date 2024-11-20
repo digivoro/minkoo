@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: nest_postgres
+    container_name: minkoo_postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -23,7 +23,7 @@ services:
     build: 
       context: ../minkoo-back
       dockerfile: Dockerfile
-    container_name: nest_backend
+    container_name: minkoo_backend
     environment:
       - POSTGRES_HOST=postgres # Importante: aquí el host es el nombre del servicio
       - POSTGRES_PORT=${POSTGRES_PORT}
