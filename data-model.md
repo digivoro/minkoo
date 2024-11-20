@@ -18,6 +18,7 @@ title: "Physical ER Diagram"
 ---
 erDiagram
   communities ||--|| locations : ""
+  community_members ||--|| community_member_roles : ""
   communities ||--o{ community_members : "group"
   users ||--o{ community_members : "belong to"
   users ||--o{ billboard_posts : "post"
@@ -25,7 +26,7 @@ erDiagram
   projects ||--|| users : "owner"
   locations ||--|| countries : ""
   communities ||--o{ community_billboards : "display"
-  billboard_posts ||--o{ community_billboards : "are posted to"
+  billboard_posts ||--|{ community_billboards : "are posted to"
   users ||--o{ project_collaborators : ""
 
   communities {
@@ -64,6 +65,7 @@ erDiagram
   community_members {
     int community_id FK
     int user_id FK
+    int community_member_role FK
     timestamptz joined_at
   }
   community_billboards {
@@ -84,9 +86,14 @@ erDiagram
     varchar city
     varchar state
     varchar address
+    varchar municipality
   }
   countries {
     int id PK
     varchar name
+  }
+  community_member_roles {
+    int id PK
+    string role
   }
 ```
