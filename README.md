@@ -6,16 +6,16 @@ Minkoo is a community-first application where you can connect with others to mak
 architecture-beta
   group minkoo[Minkoo]
 
-  service user(internet)[User] in minkoo
+  service user(internet)[User]
 
   group aws(cloud)[AWS] in minkoo
-  group docker_1(cloud)[Docker container] in aws
   group docker_2(cloud)[Docker container] in aws
   group docker_3(cloud)[Docker container] in aws
-
-  service front(server)[Nuxt Frontend] in docker_1
   service back(server)[NestJS Backend] in docker_2
   service db(database)[PostgreSQL DB] in docker_3
+
+  group vercel(cloud)[Vercel] in minkoo
+  service front(server)[Nuxt Frontend] in vercel
 
   front:L -- R:user
   back:L -- R:front
